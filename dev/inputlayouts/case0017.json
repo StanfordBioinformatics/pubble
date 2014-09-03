@@ -1,0 +1,125 @@
+{
+	"metadata":
+	{
+	"caseid": "case0017",
+	"illuminaid": "PG0001394-BLD"
+	},
+    "outputs": 
+    [
+	{
+	    "name": "flagstat",
+	    "type": "file",
+	    "relativepath": "flagstat.txt"
+	},
+	{
+	    "name": "varianteval_CountVariants",
+	    "type": "file",
+	    "relativepath": "variantEval_metrics.txt"
+	},
+	{
+	    "name": "varianteval_TiTvVariantEvaluator",
+	    "type": "file",
+	    "relativepath": "variantEval_metrics.txt"
+	},
+	{
+	    "name": "fastqc_data",
+	    "type": "file",
+	    "relativepath": "genome.recal_fastqc/fastqc_data.txt"
+	},
+    	{
+	    "name": "fastqc_duplication_levels",
+	    "type": "file",
+	    "relativepath": "genome.recal_fastqc/Images/duplication_levels.png"
+    	},
+	{
+	    "name": "fastqc_kmer_profiles",
+	    "type": "file",
+	    "relativepath": "genome.recal_fastqc/Images/kmer_profiles.png"
+	},
+	{
+	    "name": "fastqc_per_base_gc_content",
+	    "type": "file",
+	    "relativepath": "genome.recal_fastqc/Images/per_base_gc_content.png"
+	},
+	{
+	    "name": "fastqc_per_base_n_content",
+	    "type": "file",
+	    "relativepath": "genome.recal_fastqc/Images/per_base_n_content.png"
+	},
+	{
+	    "name": "fastqc_per_base_quality",
+	    "type": "file",
+	    "relativepath": "genome.recal_fastqc/Images/per_base_quality.png"
+	},
+	{
+	    "name": "fastqc_per_base_sequence_content",
+	    "type": "file",
+	    "relativepath": "genome.recal_fastqc/Images/per_base_sequence_content.png"
+	},
+	{
+	    "name": "fastqc_per_sequence_gc_content",
+	    "type": "file",
+	    "relativepath": "genome.recal_fastqc/Images/per_sequence_gc_content.png"
+	},
+	{
+	    "name": "fastqc_per_sequence_quality",
+	    "type": "file",
+	    "relativepath": "genome.recal_fastqc/Images/per_sequence_quality.png"
+	},
+	{
+	    "name": "fastqc_sequence_length_distribution",
+	    "type": "file",
+	    "relativepath": "genome.recal_fastqc/Images/sequence_length_distribution.png"
+	},
+	{
+	    "name": "picard_alignmentsummarymetrics",
+	    "type": "file",
+	    "relativepath": "alnSummaryMetrics.txt"
+	},
+	{
+	    "name": "picard_gcbiasmetrics",
+	    "type": "file",
+	    "relativepath": "gcBiasMetrics.txt"
+	},
+	{
+	    "name": "picard_gcdropoutmetrics",
+	    "type": "file",
+	    "relativepath": "gcBiasMetrics_summary.txt"
+	},
+	{
+	    "name": "picard_insertsizemetrics",
+	    "type": "file",
+	    "relativepath": "insertSizeMetrics.txt"
+	},
+	{
+	    "name": "picard_insertsizemetricsimage",
+	    "type": "file",
+	    "relativepath": "insertSizeHist.pdf"
+	},
+	{
+	    "name": "picard_meanqualitybycycleimage",
+	    "type": "file",
+	    "relativepath": "meanQualityByCycle.pdf"
+	},
+	{
+	    "name": "picard_qualityscoredistributionimage",
+	    "type": "file",
+	    "relativepath": "qualityScoreDistribution.pdf"
+	},
+	{
+	    "name": "coverage_acmg_exons_image",
+	    "type": "file",
+	    "relativepath": "acmg_exons_coverage_bar_3sigma_case0017.png"
+	},
+	{
+	    "name": "coverage_dcm_exons_image",
+	    "type": "file",
+	    "relativepath": "dcm_exons_coverage_bar_3sigma_case0017.png"
+	},
+	{
+	"name": "coverage_MYLK2_image",
+	"type": "file",
+	"relativepath": "../new3/coverage/MYLK2.png"
+	}
+    ]
+}

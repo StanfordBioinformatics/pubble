@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Genome QC Report</title>
+</head>
+<body>
+<h1>Reads metrics</h1>
+<h2>Samtools flagstat</h2>
+<table>
+<tr><th>total</th><td>{{ flagstat.total_pf }}</td></tr>
+<tr><th>duplicates</th><td>{{ flagstat.duplicates_pf }}</td></tr>
+<tr><th>mapped</th><td>{{ flagstat.mapped_pf }}</td></tr>
+<tr><th>paired in sequencing</th><td>{{ flagstat.paired_pf }}</td></tr>
+<tr><th>read1</th><td>{{ flagstat.read1_pf }}</td></tr>
+<tr><th>read2</th><td>{{ flagstat.read2_pf }}</td></tr>
+<tr><th>properly paired</th><td>{{ flagstat.properly_paired_pf }}</td></tr>
+<tr><th>with itself and mate mapped</th><td>{{ flagstat.self_and_mate_pf }}</td></tr>
+<tr><th>singletons</th><td>{{ flagstat.singletons_pf }}</td></tr>
+<tr><th>with mate mapped to a different chr</th><td>{{ flagstat.different_chr_pf }}</td></tr>
+<tr><th>with mate mapped to a different chr (mapQ>=5)</th><td>{{ flagstat.different_chr_gt5_pf }}</td></tr>
+</table>
+
+<h2>FASTQC</h2>
+<h3>Basic Statistics: {{ fastqc.basicstatistics.passfail }}</h3>
+<table>
+{% for key, value in fastqc.basicstatistics.data.iteritems() %}
+<tr><td>{{ key }}</td><td>{{ value }}</td></tr>
+{% endfor %}
+</table>
+<h3>Per Base Sequence Quality</h3>
+<table>
+<tr>{% for colname in  fastqc.perbasesequencequality.header %}<th>{{ colname }}</th>{% endfor %}</tr>
+{% for row in fastqc.perbasesequencequality.rows %}
+<tr>{% for value in row %}<td>{{ value }}</td>{% endfor %}</tr>
+{% endfor %}
+</table>
+<img src="{{ imagefiles['fastqc_duplication_levels'] }}">
+<img src="{{ imagefiles['fastqc_kmer_profiles'] }}">
+<img src="{{ imagefiles['fastqc_per_base_gc_content'] }}">
+<img src="{{ imagefiles['fastqc_per_base_n_content'] }}">
+<img src="{{ imagefiles['fastqc_per_base_quality'] }}">
+<img src="{{ imagefiles['fastqc_per_base_sequence_content'] }}">
+<img src="{{ imagefiles['fastqc_per_sequence_gc_content'] }}">
+<img src="{{ imagefiles['fastqc_per_sequence_quality'] }}">
+<img src="{{ imagefiles['fastqc_sequence_length_distribution'] }}">
+
+<h2>Picard GC Bias Metrics</h2>
+
+<h3>GC / AT dropout rate</h3>
+<table>
+<tr>{% for colname in picard_gcdropoutmetrics.header %}<th>{{ colname }}</th>{% endfor %}</tr>
+{% for row in picard_gcdropoutmetrics.rows %}
+<tr>{% for value in row %}<td>{{ value }}</td>{% endfor %}</tr>
+{% endfor %}
+</table>
+
+<h3>GC bias metrics</h3>
+<table>
+<tr>{% for colname in picard_gcbiasmetrics.header %}<th>{{ colname }}</th>{% endfor %}</tr>
+{% for row in picard_gcbiasmetrics.rows %}
+<tr>{% for value in row %}<td>{{ value }}</td>{% endfor %}</tr>
+{% endfor %}
+</table>
+
+<h3>Insert Size Metrics</h3>
+<table>
+{% for i in range(picard_insertsizemetrics.header|count) %}
+<tr><th>{{ picard_insertsizemetrics.header[i] }}</th>{% for row in picard_insertsizemetrics.rows %}<td>{{ row[i] }}</td>{% endfor %}</tr>
+{% endfor %}
+</table>
+
+<p>
+<object data="{{ imagefiles['picard_gcbiasmetricsimage'] }}" type="application/pdf" width="700" height="700">
+  <p>It appears you don't have a PDF plugin for this browser.
+  You can <a href="{{ imagefiles['picard_gcbiasmetricsimage'] }}">click here to
+  download the PDF file.</a></p>
+</object>
+</p>
+<p>
+<object data="{{ imagefiles['picard_insertsizemetricsimage'] }}" type="application/pdf" width="700" height="700">
+  <p>It appears you don't have a PDF plugin for this browser.
+  You can <a href="{{ imagefiles['picard_insertsizemetricsimage'] }}">click here to
+  download the PDF file.</a></p>
+</object>
+</p>
+<p>
+<object data="{{ imagefiles['picard_meanqualitybycycleimage'] }}" type="application/pdf" width="700" height="700">
+  <p>It appears you don't have a PDF plugin for this browser.
+  You can <a href="{{ imagefiles['picard_meanqualitybycycleimage'] }}">click here to
+  download the PDF file.</a></p>
+</object>
+</p>
+<p>
+<object data="{{ imagefiles['picard_qualityscoredistributionimage'] }}" type="application/pdf" width="700" height="700">
+  <p>It appears you don't have a PDF plugin for this browser.
+  You can <a href="{{ imagefiles['picard_qualityscoredistributionimage'] }}">click here to
+  download the PDF file.</a></p>
+</object>
+</p>
+
+<h1>Alignment metrics</h1>
+<h2>Picard Alignment Summary Metrics</h2>
+<table>
+{% for i in range(picard_alignmentsummarymetrics.header|count) %}
+<tr><th>{{ picard_alignmentsummarymetrics.header[i] }}</th>{% for row in picard_alignmentsummarymetrics.rows %}<td>{{ row[i] }}</td>{% endfor %}</tr>
+{% endfor %}
+</table>
+
+<h1>Variant metrics</h1>
+
+{% for name, table in varianteval.iteritems() %}
+<h2>{{ name }}</h2> 
+<h3>{{ table.description }}</h3>
+<table>
+<tr>{% for colname in table.header %}<th>{{ colname }}</th>{% endfor %}</tr>
+{% for row in table.rows %}
+<tr>{% for value in row %}<td>{{ value }}</td>{% endfor %}</tr>
+{% endfor %}
+</table>
+{% endfor %}
+</body>
+</html>

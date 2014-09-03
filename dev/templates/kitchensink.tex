@@ -1,0 +1,173 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage{graphicx}
+\usepackage{float}
+\begin{document}
+
+\title{Genome QC Report}
+\date{}
+\author{}
+\maketitle
+
+\section*{Reads metrics}
+\subsection*{Samtools flagstat}
+
+\begin{quote}
+\begin{tabular}{ll}
+total&{{ flagstat.total_pf }}\\
+duplicates&{{ flagstat.duplicates_pf }}\\
+mapped&{{ flagstat.mapped_pf }}\\
+paired in sequencing&{{ flagstat.paired_pf }}\\
+read1&{{ flagstat.read1_pf }}\\
+read2&{{ flagstat.read2_pf }}\\
+properly paired&{{ flagstat.properly_paired_pf }}\\
+with itself and mate mapped&{{ flagstat.self_and_mate_pf }}\\
+singletons&{{ flagstat.singletons_pf }}\\
+with mate mapped to a different chr&{{ flagstat.different_chr_pf }}\\
+with mate mapped to a different chr (mapQ\textgreater=5)&{{ flagstat.different_chr_gt5_pf }}\\
+\end{tabular}
+\end{quote}
+
+\subsection*{Fastqc}
+\subsubsection*{Basic Statistics: {{ fastqc.basicstatistics.passfail }} }
+\begin{quote}
+\begin{tabular}{ll}
+{% for key, value in fastqc.basicstatistics.data.iteritems() %}
+\verb|{{ key }}|&\verb|{{ value }}|\\
+{% endfor %}
+\end{tabular}
+\end{quote}
+
+\subsubsection*{Per Base Sequence Quality}
+\begin{tiny}
+\begin{tabular}{{ '{' }}{% for i in range(fastqc.perbasesequencequality.header|count) %}l{% endfor %}{{ '}' }}
+\verb|{{ fastqc.perbasesequencequality.header|join('|&\\verb|') }}|\\
+{% for row in fastqc.perbasesequencequality.rows %}\verb|{{ row|join('|&\\verb|') }}|\\
+{% endfor %}
+\end{tabular}
+\end{tiny}
+
+\begin{figure}[ht!]
+\centering
+\includegraphics[width=90mm]{{ '{' }}{{ imagefiles['fastqc_duplication_levels'] }}{{ '}' }}
+\label{overflow}
+\end{figure}
+
+\begin{figure}[ht!]
+\centering
+\includegraphics[width=90mm]{{ '{' }}{{ imagefiles['fastqc_kmer_profiles'] }}{{ '}' }}
+\label{overflow}
+\end{figure}
+
+\begin{figure}[ht!]
+\centering
+\includegraphics[width=90mm]{{ '{' }}{{ imagefiles['fastqc_per_base_gc_content'] }}{{ '}' }}
+\label{overflow}
+\end{figure}
+
+\begin{figure}[ht!]
+\centering
+\includegraphics[width=90mm]{{ '{' }}{{ imagefiles['fastqc_per_base_n_content'] }}{{ '}' }}
+\label{overflow}
+\end{figure}
+
+\begin{figure}[ht!]
+\centering
+\includegraphics[width=90mm]{{ '{' }}{{ imagefiles['fastqc_per_base_quality'] }}{{ '}' }}
+\label{overflow}
+\end{figure}
+
+\begin{figure}[ht!]
+\centering
+\includegraphics[width=90mm]{{ '{' }}{{ imagefiles['fastqc_per_base_sequence_content'] }}{{ '}' }}
+\label{overflow}
+\end{figure}
+
+\begin{figure}[ht!]
+\centering
+\includegraphics[width=90mm]{{ '{' }}{{ imagefiles['fastqc_per_sequence_gc_content'] }}{{ '}' }}
+\label{overflow}
+\end{figure}
+
+\begin{figure}[ht!]
+\centering
+\includegraphics[width=90mm]{{ '{' }}{{ imagefiles['fastqc_per_sequence_quality'] }}{{ '}' }}
+\label{overflow}
+\end{figure}
+
+\begin{figure}[ht!]
+\centering
+\includegraphics[width=90mm]{{ '{' }}{{ imagefiles['fastqc_sequence_length_distribution'] }}{{ '}' }}
+\label{overflow}
+\end{figure}
+
+\clearpage
+\subsection*{Picard GC bias metrics}
+
+\subsubsection*{GC / AT dropout rate}
+\begin{quote}
+\begin{tabular}{{ '{' }}{% for i in range(picard_gcdropoutmetrics.header|count) %}l{% endfor %}{{ '}' }}
+\verb|{{ picard_gcdropoutmetrics.header|join('|&\\verb|') }}|\\
+{% for row in picard_gcdropoutmetrics.rows %}\verb|{{ row|join('|&\\verb|') }}|\\
+{% endfor %}
+\end{tabular}
+\end{quote}
+
+\subsubsection*{GC bias metrics}
+\begin{tiny}
+\begin{tabular}{{ '{' }}{% for i in range(picard_gcbiasmetrics.header|count) %}l{% endfor %}{{ '}' }}
+\verb|{{ picard_gcbiasmetrics.header|join('|&\\verb|') }}|\\
+{% for row in picard_gcbiasmetrics.rows %}\verb|{{ row|join('|&\\verb|') }}|\\
+{% endfor %}
+\end{tabular}
+\end{tiny}
+
+\subsection*{Insert size metrics}
+\begin{quote}
+\begin{tabular}{l{% for row in picard_insertsizemetrics.rows %}l{% endfor %}{{ '}' }}
+{% for i in range(picard_insertsizemetrics.header|count) %}
+\verb|{{ picard_insertsizemetrics.header[i] }}|{% for row in picard_insertsizemetrics.rows %}&\verb|{{ row[i] }}|{% endfor %}\\{% endfor %}
+\end{tabular}
+\end{quote}
+
+
+\begin{figure}[ht!]
+\centering
+\includegraphics[width=90mm]{{ '{' }}{{ imagefiles['picard_gcbiasmetricsimage'] }}{{ '}' }}
+\label{overflow}
+\end{figure}
+
+\begin{figure}[ht!]
+\centering
+\includegraphics[width=90mm]{{ '{' }}{{ imagefiles['picard_insertsizemetricsimage'] }}{{ '}' }}
+\label{overflow}
+\end{figure}
+
+\begin{figure}[ht!]
+\centering
+\includegraphics[width=90mm]{{ '{' }}{{ imagefiles['picard_meanqualitybycycleimage'] }}{{ '}' }}
+\label{overflow}
+\end{figure}
+
+\begin{figure}[ht!]
+\centering
+\includegraphics[width=90mm]{{ '{' }}{{ imagefiles['picard_qualityscoredistributionimage'] }}{{ '}' }}
+\label{overflow}
+\end{figure}
+
+\clearpage
+
+\section*{Variant metrics}
+
+{% for name, table in varianteval.iteritems() %}
+\subsection*{{ '{' }}{{ name }}{{ '}' }}
+\subsubsection*{{ '{' }}{{ table.description }}{{ '}' }}
+\begin{tiny}
+\begin{tabular}{{ '{' }}{% for col in table.header %}l{% endfor %}{{ '}' }}
+\verb|{{ table.header|join('|&\\verb|') }}|\\
+{% for row in table.rows %}
+\verb|{{ row|join('|&\\verb|') }}|\\{% endfor %}
+\end{tabular}
+\end{tiny}
+{% endfor %}
+
+\end{document}
