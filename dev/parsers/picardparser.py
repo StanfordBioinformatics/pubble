@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 from argparse import ArgumentParser
 
@@ -12,15 +12,15 @@ def genericparser(filename):
             if line.startswith('## METRICS'):
                 # Skip line
                 # Save next line as header
-                line = f.next()
+                line = f.readline()
                 resultsdata['header'] = line.rstrip().split()
                 
                 # Get rows
-                line = f.next().rstrip()
+                line = f.readline().rstrip()
                 while line:
                     resultsdata['rows'].append(line.rstrip().split())
                     try:
-                        line = f.next().rstrip()
+                        line = f.readline().rstrip()
                     except StopIteration:
                         break
 
@@ -116,6 +116,10 @@ def insertsizemetrics(filename):
 # 5       1603
 # 6       1579
 
+def qualityscoredistribution(filename):
+    results = {'picard_qualityscoredistribution': genericparser(filename)}
+    imagefiles = None
+    return (results, imagefiles)
 
 if __name__=='__main__':
     parser = ArgumentParser()
@@ -131,6 +135,6 @@ if __name__=='__main__':
 
     if parsefxn:
         (results, imagefiles) = parsefxn(args.filename)
-        print results
+        print(results)
 
 

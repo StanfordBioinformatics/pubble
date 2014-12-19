@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 from argparse import ArgumentParser
 from jinja2 import Environment, FileSystemLoader
@@ -7,14 +7,22 @@ import re
 from shutil import copy, rmtree, move
 import subprocess
 import tempfile
+from highest_version import highest_version
 
 from chqpoint import Analysis
 from parsers import samtoolsparser, gatkparser, fastqcparser, picardparser, common
 
+# Default values 
+cases_path = os.path.normpath('/srv/gsfs0/SCGS/cases')
+medgap_prefix = 'medgap'
+qc_prefix = 'QC'
+templates_path = os.path.normpath('/srv/gs1/software/gbsc/pubble/dev/templates')
+parsers_path = os.path.normpath('/srv/gs1/software/gbsc/pubble/dev/parsers')
+inputlayouts_path = os.path.normpath('/srv/gs1/software/gbsc/pubble/dev/inputlayouts')
+
 # This dict maps each output file name to its parser module
 # The key is the output 'name' in the chqpoint json
 # file used to import the analysis
-#
 
 parsers = {
     'flagstat': samtoolsparser.flagstat,
@@ -34,6 +42,7 @@ parsers = {
     'picard_gcbiasmetrics': picardparser.gcbiasmetrics,
     'picard_gcdropoutmetrics': picardparser.gcdropoutmetrics,
     'picard_insertsizemetrics': picardparser.insertsizemetrics,
+    'picard_qualityscoredistribution': picardparser.qualityscoredistribution,
     'picard_gcbiasmetricsimage': common.imagenoop,
     'picard_insertsizemetricsimage': common.imagenoop,
     'picard_meanqualitybycycleimage': common.imagenoop,
@@ -77,9 +86,9 @@ class ReportMaker:
     def renderpdf(self, templatefile, destfile, dbg):
         tempdir = tempfile.mkdtemp()
         if dbg:
-            print "Intermediate files for generating PDF will be preserved in %s" % tempdir
-            print self.results
-            print self.imagefiles
+            print("Intermediate files for generating PDF will be preserved in " + tempdir)
+            print(self.results)
+            print(self.imagefiles)
 
         tempbasename = '_temp_'
         latexfile = os.path.join(tempdir, tempbasename+'.tex')
@@ -109,6 +118,8 @@ class ReportMaker:
         templatedict.update(results)
         templatedict.update({'imagefiles': imagefiles})
         templatedict.update(self.metadata)
+        if args.case:
+            templatedict.update({'caseid': args.case})
 
         outputText = template.render(templatedict)
         return outputText
@@ -124,23 +135,36 @@ class ReportMaker:
         if not os.path.exists(destdir):
             os.mkdir(destdir)
 
-        for (imagename, imagefile) in self.imagefiles.iteritems():
+        for (imagename, imagefile) in self.imagefiles.items():
             self.imagefilescopy[imagename] = os.path.join(
-                destdir, os.path.basename(imagefile))
+                os.path.basename(destdir), os.path.basename(imagefile))
             copy(imagefile, destdir)
         
 if __name__=='__main__':
 
     parser = ArgumentParser()
     parser.add_argument('--analysisroot')
-    parser.add_argument('--chqpointmap')
-    parser.add_argument('--htmltemplate')
+    parser.add_argument('--chqpointmap', default=os.path.join(inputlayouts_path, 'case0019_demo.json'))
+    parser.add_argument('--htmltemplate', default=os.path.join(templates_path, 'report.html'))
     parser.add_argument('--htmldestfile')
-    parser.add_argument('--pdftemplate')
+    parser.add_argument('--pdftemplate', default=os.path.join(templates_path, 'report.tex'))
     parser.add_argument('--pdfdestfile')
+    parser.add_argument('--case')
     parser.add_argument('--debug', action='store_true')
     args = parser.parse_args()
 
+
+    # Set up paths based on case number
+    if args.case:
+        if not args.analysisroot:
+            latest_medgap_dir = highest_version(os.path.join(cases_path, args.case, medgap_prefix))
+            latest_qc_dir = highest_version(os.path.join(latest_medgap_dir, qc_prefix))
+            args.analysisroot = latest_qc_dir  
+        if not args.htmldestfile: 
+            args.htmldestfile = os.path.join(args.analysisroot, 'report.html') 
+        if not args.pdfdestfile:
+            args.pdfdestfile = os.path.join(args.analysisroot, 'report.pdf') 
+    
     r = ReportMaker(
         args.analysisroot, 
         args.chqpointmap
@@ -151,7 +175,7 @@ if __name__=='__main__':
             pdfdestfile = args.pdfdestfile
         else:
             pdfdestfile = 'out.pdf'
-        r.renderpdf(args.pdftemplate, args.pdfdestfile, args.debug)
+        r.renderpdf(args.pdftemplate, pdfdestfile, args.debug)
 
     if args.htmltemplate:
         if args.htmldestfile:

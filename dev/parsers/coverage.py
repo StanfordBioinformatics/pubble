@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 from argparse import ArgumentParser
 
@@ -18,6 +18,6 @@ if __name__=='__main__':
     args = parser.parse_args()
 
     (results, imagefiles) = parsetable(args.filename)
-    print results
+    print(results)
 
 

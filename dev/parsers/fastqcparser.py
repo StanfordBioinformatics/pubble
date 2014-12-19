@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 from argparse import ArgumentParser
 
@@ -55,16 +55,16 @@ def fastqc_data(filename):
                 data = resultsdata['basicstatistics']['data']
                 
                 # Skip line with "Measure  Value" labels
-                nextrow = f.next()
+                nextrow = f.readline()
                 if nextrow.startswith('#Measure'):
-                    nextrow = f.next()
+                    nextrow = f.readline()
                 
                 while not nextrow.startswith('>>END_MODULE'):
                     parts = nextrow.rstrip().split('\t')
                     key = parts[0]
                     value = parts[1]
                     data[key] = value
-                    nextrow = f.next()
+                    nextrow = f.readline()
                 continue
 
             if line.startswith('>>Per base sequence quality'):
@@ -74,13 +74,13 @@ def fastqc_data(filename):
                 rows = resultsdata['perbasesequencequality']['rows']
 
                 # Get header row
-                resultsdata['perbasesequencequality']['header'] = f.next().rstrip().split('\t')
+                resultsdata['perbasesequencequality']['header'] = f.readline().rstrip().split('\t')
 
                 # Get other rows
-                nextrow = f.next()
+                nextrow = f.readline()
                 while not nextrow.startswith('>>END_MODULE'):
                     rows.append(nextrow.rstrip().split('\t'))
-                    nextrow = f.next()
+                    nextrow = f.readline()
                 continue
 
     results = {'fastqc': resultsdata}
@@ -93,9 +93,9 @@ if __name__=='__main__':
     args = parser.parse_args()
     (results, imagefiles) = fastqc_data(args.filename)
     if results:
-        print results
+        print(results)
     if imagefiles:
-        print imagefiles
+        print(imagefiles)
 
 
 #  ##FastQC        0.10.1

@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 import re
 from argparse import ArgumentParser
 
@@ -36,10 +36,10 @@ if __name__=='__main__':
     (results, imagefile) = flagstat(args.filename)
 
     if imagefile:
-        print imagefile
+        print(imagefile)
 
     if results:
-        print results
+        print(results)
 
 # 4198456 + 0 in total (QC-passed reads + QC-failed reads) 
 # 0 + 0 duplicates 

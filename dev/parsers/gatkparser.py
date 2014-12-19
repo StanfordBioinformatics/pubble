@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 import re
 from argparse import ArgumentParser
 
@@ -17,18 +17,18 @@ def generic_parser(filename, tablename):
                 tabledescription = m.groups()[1]
 
                 # Capture the column header info
-                nextrow = f.next().rstrip()
+                nextrow = f.readline().rstrip()
                 tableheader = re.split('\s+', nextrow)
                 tableheader.pop(0) #Drop the table name
 
                 # Capture data from all rows that start with the current tablename
                 rows = []
-                nextrow = f.next().rstrip()
+                nextrow = f.readline().rstrip()
                 while nextrow.startswith(tablename):
                     rowdata = re.split('\s+', nextrow)
                     rowdata.pop(0) # Drop the table name from the row
                     rows.append(rowdata) # Save data to list of rows
-                    nextrow = f.next().rstrip()
+                    nextrow = f.readline().rstrip()
 
                 results = {
                     'description': tabledescription,
@@ -119,7 +119,7 @@ def varianteval(filename):
                 # Ignore the first line with format information. 
 
                 # Capture the table name and description from the second line.
-                nextrow = f.next()
+                nextrow = f.readline()
                 m = re.match(r'^#:GATKTable:(.*):(.*)$', nextrow)
                 if not m:
                     continue
@@ -127,18 +127,18 @@ def varianteval(filename):
                 tabledescription = m.groups()[1]
 
                 # Capture the column header info
-                nextrow = f.next().rstrip()
+                nextrow = f.readline().rstrip()
                 tableheader = re.split('\s+', nextrow)
                 tableheader.pop(0) #Drop the table name
 
                 # Capture data from all rows that start with the current tablename
                 rows = []
-                nextrow = f.next().rstrip()
+                nextrow = f.readline().rstrip()
                 while nextrow.startswith(tablename):
                     rowdata = re.split('\s+', nextrow)
                     rowdata.pop(0) # Drop the table name from the row
                     rows.append(rowdata) # Save data to list of rows
-                    nextrow = f.next().rstrip()
+                    nextrow = f.readline().rstrip()
 
                 resultstables[tablename] = {
                     'description': tabledescription,
@@ -155,7 +155,7 @@ if __name__=='__main__':
     args = parser.parse_args()
     results = parse(args.filename)
 
-    print results
+    print(results)
 
 
 #  #:GATKTable:20:3:%s:%s:%s:%s:%s:%d:%d:%d:%.2f:%s:%d:%.2f:%.1f:%d:%s:%d:%.1f:%d:%s:%d:;

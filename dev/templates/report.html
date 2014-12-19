@@ -5,8 +5,11 @@
 </head>
 <body>
 <h1>Sequencing, Mapping, and Variant Calling QC Report</h1>
-<h2><i>Case ID: {{ caseid }}<br>
-Sequence ID: {{illuminaid}}{{ '}' }}</i></h2>
+<h2><i>Case ID: {{ caseid }}
+{% if illuminaid %}
+<br>Sequence ID: {{illuminaid}}
+{% endif %}
+</i></h2>
 
 <a href="report.pdf">Download PDF</a>
 
@@ -40,7 +43,7 @@ Sequence ID: {{illuminaid}}{{ '}' }}</i></h2>
 <h2>FASTQC</h2>
 <h3>Basic Statistics: {{ fastqc.basicstatistics.passfail }}</h3>
 <table>
-{% for key, value in fastqc.basicstatistics.data.iteritems() %}
+{% for key, value in fastqc.basicstatistics.data.items() %}
 <tr><td>{{ key }}</td><td>{{ value }}</td></tr>
 {% endfor %}
 </table>
@@ -124,16 +127,14 @@ Sequence ID: {{illuminaid}}{{ '}' }}</i></h2>
 </table>
 
 <h1>Variant metrics</h1>
-
-{% for name, table in varianteval.iteritems() %}
-<h2>{{ name }}</h2> 
-<h3>{{ table.description }}</h3>
+{% if varianteval_TiTvVariantEvaluator_test %} 
+<h2>Variant Ti/Tv metrics</h2> 
 <table>
 <tr>{% for colname in table.header %}<th>{{ colname }}</th>{% endfor %}</tr>
 {% for row in table.rows %}
 <tr>{% for value in row %}<td>{{ value }}</td>{% endfor %}</tr>
 {% endfor %}
 </table>
-{% endfor %}
+{% endif %}
 </body>
 </html>
