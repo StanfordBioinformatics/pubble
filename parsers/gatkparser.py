@@ -83,6 +83,50 @@ def varianteval_CountVariants(filename):
     imagefiles = None
     return (results, imagefiles)
 
+def varianteval_dbsnp_CountVariants(filename):
+    tablename = 'CountVariants'
+    resultsname = 'varianteval_dbsnp_CountVariants'
+
+    fullresults = generic_parser(filename, tablename)
+
+    columns = []
+    # Get a subset of the results; only SNP and Indel rows, and select columns
+    col_novelty = fullresults['header'].index('Novelty')
+    columns.append(col_novelty)
+    # columns.append(fullresults['header'].index('nProcessedLoci'))
+    # columns.append(fullresults['header'].index('nVariantLoci'))
+    # columns.append(fullresults['header'].index('nSNPs'))
+    # columns.append(fullresults['header'].index('nMNPs'))
+    # columns.append(fullresults['header'].index('nInsertions'))
+    # columns.append(fullresults['header'].index('nDeletions'))
+    # columns.append(fullresults['header'].index('nComplex'))
+    # columns.append(fullresults['header'].index('nNoCalls'))
+    columns.append(fullresults['header'].index('nHets'))
+    columns.append(fullresults['header'].index('nHomVar'))
+    columns.append(fullresults['header'].index('hetHomRatio'))
+
+    rownums = []
+    for i in range(0, len(fullresults['rows'])):
+        if fullresults['rows'][i][col_novelty] == 'all':
+            rownums.append(i)
+
+    header = []
+    rows = []
+    for col in columns:
+        header.append(fullresults['header'][col])
+    for rownum in rownums:
+        row = []
+        for col in columns:
+            row.append(fullresults['rows'][rownum][col])
+        rows.append(row)
+                        
+    results = {resultsname: {}}
+    results[resultsname]['header'] = header
+    results[resultsname]['rows'] = rows
+
+    imagefiles = None
+    return (results, imagefiles)
+
 def varianteval_TiTvVariantEvaluator(filename):
     tablename = 'TiTvVariantEvaluator'
     resultsname = 'varianteval_TiTvVariantEvaluator'
@@ -104,6 +148,43 @@ def varianteval_TiTvVariantEvaluator(filename):
     results[resultsname]['nTi'] = row[col_nTi]
     results[resultsname]['nTv'] = row[col_nTv]
     results[resultsname]['TiTvRatio'] = row[col_TiTvRatio]
+
+    imagefiles = None
+    return (results, imagefiles)
+
+def varianteval_dbsnp_TiTvVariantEvaluator(filename):
+    tablename = 'TiTvVariantEvaluator'
+    resultsname = 'varianteval_dbsnp_TiTvVariantEvaluator'
+
+    fullresults = generic_parser(filename, tablename)
+
+    # Now we want to pull out some key results that can be displayed without the whole table.
+    
+    columns = []
+    col_novelty = fullresults['header'].index('Novelty')
+    columns.append(col_novelty)
+    columns.append(fullresults['header'].index('nTi'))
+    columns.append(fullresults['header'].index('nTv'))
+    columns.append(fullresults['header'].index('tiTvRatio'))
+
+    rownums = []
+    for i in range(len(fullresults['rows'])):
+        if fullresults['rows'][i][col_novelty] == 'all':
+            rownums.append(i)
+
+    header = []
+    rows = []
+    for col in columns:
+        header.append(fullresults['header'][col])
+    for rownum in rownums:
+        row = []
+        for col in columns:
+            row.append(fullresults['rows'][rownum][col])
+        rows.append(row)
+                        
+    results = {resultsname: {}}
+    results[resultsname]['header'] = header
+    results[resultsname]['rows'] = rows
 
     imagefiles = None
     return (results, imagefiles)

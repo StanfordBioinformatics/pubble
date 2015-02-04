@@ -22,6 +22,16 @@
 	    "relativepath": "variantEval/variantEval_metrics.txt"
 	},
 	{
+	    "name": "varianteval_dbsnp_CountVariants",
+	    "type": "file",
+	    "relativepath": "variantEval-dbsnp/variantEval_metrics.txt"
+	},
+	{
+	    "name": "varianteval_dbsnp_TiTvVariantEvaluator",
+	    "type": "file",
+	    "relativepath": "variantEval-dbsnp/variantEval_metrics.txt"
+	},
+	{
 	    "name": "fastqc_data",
 	    "type": "file",
 	    "relativepath": "fastqc/genome.recal_fastqc/fastqc_data.txt"
@@ -115,6 +125,11 @@
 	    "name": "picard_qualityscoredistributionimage",
 	    "type": "file",
 	    "relativepath": "qcScoreDist/qualScoreDist_chart.pdf"
+	},
+	{
+	    "name": "coverage_summary",
+	    "type": "file",
+	    "relativepath": "coverage/sample_summary.txt"
 	}
     ]
 }

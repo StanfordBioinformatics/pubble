@@ -10,10 +10,11 @@ import tempfile
 from highest_version import highest_version
 
 from chqpoint import Analysis
-from parsers import samtoolsparser, gatkparser, fastqcparser, picardparser, common
+from parsers import samtoolsparser, gatkparser, fastqcparser, picardparser, coverage, common
 
 # Default values 
 cases_path = os.path.normpath('/srv/gsfs0/SCGS/cases')
+output_path = os.path.normpath('/srv/gsfs0/SCGS/reports')
 medgap_prefix = 'medgap'
 qc_prefix = 'QC'
 templates_path = os.path.normpath('/srv/gs1/software/gbsc/pubble/dev/templates')
@@ -28,6 +29,8 @@ parsers = {
     'flagstat': samtoolsparser.flagstat,
     'varianteval_CountVariants': gatkparser.varianteval_CountVariants,
     'varianteval_TiTvVariantEvaluator': gatkparser.varianteval_TiTvVariantEvaluator,
+    'varianteval_dbsnp_CountVariants': gatkparser.varianteval_dbsnp_CountVariants,
+    'varianteval_dbsnp_TiTvVariantEvaluator': gatkparser.varianteval_dbsnp_TiTvVariantEvaluator,
     'fastqc_data': fastqcparser.fastqc_data,
     'fastqc_duplication_levels': fastqcparser.duplication_levels,
     'fastqc_kmer_profiles': fastqcparser.kmer_profiles,
@@ -50,8 +53,8 @@ parsers = {
     'coverage_acmg_exons_image': common.imagenoop,
     'coverage_dcm_exons_image': common.imagenoop,
     'coverage_MYLK2_image': common.imagenoop,
+    'coverage_summary': coverage.coverage_summary
 }
-
 
 class ReportMaker:
 
@@ -144,7 +147,7 @@ if __name__=='__main__':
 
     parser = ArgumentParser()
     parser.add_argument('--analysisroot')
-    parser.add_argument('--chqpointmap', default=os.path.join(inputlayouts_path, 'case0019_demo.json'))
+    parser.add_argument('--chqpointmap', default=os.path.join(inputlayouts_path, 'report.json'))
     parser.add_argument('--htmltemplate', default=os.path.join(templates_path, 'report.html'))
     parser.add_argument('--htmldestfile')
     parser.add_argument('--pdftemplate', default=os.path.join(templates_path, 'report.tex'))
@@ -161,9 +164,11 @@ if __name__=='__main__':
             latest_qc_dir = highest_version(os.path.join(latest_medgap_dir, qc_prefix))
             args.analysisroot = latest_qc_dir  
         if not args.htmldestfile: 
-            args.htmldestfile = os.path.join(args.analysisroot, 'report.html') 
+            #args.htmldestfile = os.path.join(args.analysisroot, 'report.html') 
+            args.htmldestfile = os.path.join(output_path, args.case+'.html') 
         if not args.pdfdestfile:
-            args.pdfdestfile = os.path.join(args.analysisroot, 'report.pdf') 
+            #args.pdfdestfile = os.path.join(args.analysisroot, 'report.pdf') 
+            args.pdfdestfile = os.path.join(output_path, args.case+'.pdf') 
     
     r = ReportMaker(
         args.analysisroot, 

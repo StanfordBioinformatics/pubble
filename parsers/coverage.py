@@ -7,6 +7,16 @@ def imagenoop(filename):
     image = filename
     return (results, image)
 
+def coverage_summary(filename):
+    resultsname = 'coverage_summary'
+    results = {resultsname : {}}
+    with open(filename) as f:
+        lines = []
+        for line in f:
+            lines.append(line)
+        results[resultsname]['lines'] = lines
+        return (results, None)
+
 def parsetable(filename):
     # TODO
     return None
