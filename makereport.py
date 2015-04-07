@@ -12,14 +12,19 @@ from highest_version import highest_version
 from chqpoint import Analysis
 from parsers import samtoolsparser, gatkparser, fastqcparser, picardparser, coverage, common
 
-# Default values 
+VERSION = '1.0'
+
+# Default values, can be overridden by arguments 
 cases_path = os.path.normpath('/srv/gsfs0/SCGS/cases')
-output_path = os.path.normpath('/srv/gsfs0/SCGS/reports')
+links_path = os.path.normpath('/srv/gsfs0/SCGS/reports')
 medgap_prefix = 'medgap'
-qc_prefix = 'QC'
-templates_path = os.path.normpath('/srv/gs1/software/gbsc/pubble/dev/templates')
-parsers_path = os.path.normpath('/srv/gs1/software/gbsc/pubble/dev/parsers')
-inputlayouts_path = os.path.normpath('/srv/gs1/software/gbsc/pubble/dev/inputlayouts')
+medgap_version = '2.0'
+qc_prefix = 'koalatea'
+qc_version = '2.1'
+pubble_prefix = 'pubble'
+templates_path = os.path.normpath('/srv/gs1/software/gbsc/pubble/templates')
+parsers_path = os.path.normpath('/srv/gs1/software/gbsc/pubble/parsers')
+inputlayouts_path = os.path.normpath('/srv/gs1/software/gbsc/pubble/inputlayouts')
 
 # This dict maps each output file name to its parser module
 # The key is the output 'name' in the chqpoint json
@@ -146,45 +151,57 @@ class ReportMaker:
 if __name__=='__main__':
 
     parser = ArgumentParser()
-    parser.add_argument('--analysisroot')
+    parser.add_argument('--fullqcdir')
+    parser.add_argument('--case')
     parser.add_argument('--chqpointmap', default=os.path.join(inputlayouts_path, 'report.json'))
     parser.add_argument('--htmltemplate', default=os.path.join(templates_path, 'report.html'))
     parser.add_argument('--htmldestfile')
     parser.add_argument('--pdftemplate', default=os.path.join(templates_path, 'report.tex'))
     parser.add_argument('--pdfdestfile')
-    parser.add_argument('--case')
     parser.add_argument('--debug', action='store_true')
     args = parser.parse_args()
 
+    # Check arguments
+    if args.fullqcdir and args.case:
+        raise Exception('Conflicting arguments fullqcdir and case both specified')
 
     # Set up paths based on case number
     if args.case:
-        if not args.analysisroot:
-            latest_medgap_dir = highest_version(os.path.join(cases_path, args.case, medgap_prefix))
-            latest_qc_dir = highest_version(os.path.join(latest_medgap_dir, qc_prefix))
-            args.analysisroot = latest_qc_dir  
-        if not args.htmldestfile: 
-            #args.htmldestfile = os.path.join(args.analysisroot, 'report.html') 
-            args.htmldestfile = os.path.join(output_path, args.case+'.html') 
-        if not args.pdfdestfile:
-            #args.pdfdestfile = os.path.join(args.analysisroot, 'report.pdf') 
-            args.pdfdestfile = os.path.join(output_path, args.case+'.pdf') 
+        #latest_medgap_dir = highest_version(os.path.join(cases_path, args.case, medgap_prefix))
+        #latest_qc_dir = highest_version(os.path.join(latest_medgap_dir, qc_prefix))
+        default_medgap_dir = os.path.join(cases_path, args.case, medgap_prefix + '-' + medgap_version)
+        default_qc_dir = os.path.join(default_medgap_dir, qc_prefix + '-' + qc_version)
+        fullqcdir = default_qc_dir  
+        case = args.case
+        
+    # Set up paths based on fullqcdir
+    elif args.fullqcdir:
+        fullqcdir = args.fullqcdir
+        case = os.path.basename(os.path.dirname(os.path.dirname(fullqcdir)))
+        
+    default_outputdir = os.path.join(fullqcdir, pubble_prefix + '-' + VERSION) 
+        
+    if args.htmldestfile: 
+        htmldestfile = args.htmldestfile
+    else:
+        htmldestfile = os.path.join(default_outputdir, case+'.html') 
+
+    if args.pdfdestfile:
+        pdfdestfile = args.pdfdestfile
+    else:
+        pdfdestfile = os.path.join(default_outputdir, case+'.pdf') 
     
+    # Create output directory/directories
+    os.makedirs(os.path.dirname(pdfdestfile), exist_ok=True)
+    os.makedirs(os.path.dirname(htmldestfile), exist_ok=True)
+
     r = ReportMaker(
-        args.analysisroot, 
+        fullqcdir, 
         args.chqpointmap
     )
 
-    if args.pdftemplate:
-        if args.pdfdestfile:
-            pdfdestfile = args.pdfdestfile
-        else:
-            pdfdestfile = 'out.pdf'
-        r.renderpdf(args.pdftemplate, pdfdestfile, args.debug)
+    r.renderpdf(args.pdftemplate, pdfdestfile, args.debug)
+    r.renderhtml(args.htmltemplate, htmldestfile)
 
-    if args.htmltemplate:
-        if args.htmldestfile:
-            htmldestfile = args.htmldestfile
-        else:
-            htmldestfile = 'out.html'
-        r.renderhtml(args.htmltemplate, htmldestfile)
+    # Create symlink to PDF
+    os.symlink(pdfdestfile, os.path.join(links_path, os.path.basename(pdfdestfile))) 
