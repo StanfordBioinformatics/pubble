@@ -22,9 +22,9 @@ medgap_version = '2.0'
 qc_prefix = 'koalatea'
 qc_version = '2.1'
 pubble_prefix = 'pubble'
-templates_path = os.path.normpath('/srv/gs1/software/gbsc/pubble/templates')
-parsers_path = os.path.normpath('/srv/gs1/software/gbsc/pubble/parsers')
-inputlayouts_path = os.path.normpath('/srv/gs1/software/gbsc/pubble/inputlayouts')
+templates_path = os.path.join(os.path.dirname(__file__), 'templates')
+parsers_path = os.path.join(os.path.dirname(__file__), 'parsers')
+inputlayouts_path = os.path.join(os.path.dirname(__file__), 'inputlayouts')
 
 # This dict maps each output file name to its parser module
 # The key is the output 'name' in the chqpoint json
@@ -163,7 +163,7 @@ if __name__=='__main__':
 
     # Check arguments
     if args.fullqcdir and args.case:
-        raise Exception('Conflicting arguments fullqcdir and case both specified')
+        raise Exception('Conflicting arguments, fullqcdir and case both specified')
 
     # Set up paths based on case number
     if args.case:
