@@ -204,4 +204,7 @@ if __name__=='__main__':
     r.renderhtml(args.htmltemplate, htmldestfile)
 
     # Create symlink to PDF
-    os.symlink(pdfdestfile, os.path.join(links_path, os.path.basename(pdfdestfile))) 
+    try:
+        os.symlink(pdfdestfile, os.path.join(links_path, os.path.basename(pdfdestfile))) 
+    except FileExistsError:
+        print('Skipping creation of symbolic link because a file or link of the same name already exists')
