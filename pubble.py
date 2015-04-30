@@ -151,7 +151,7 @@ class ReportMaker:
 if __name__=='__main__':
 
     parser = ArgumentParser()
-    parser.add_argument('--fullqcdir')
+    parser.add_argument('fullqcdir')
     parser.add_argument('--case')
     parser.add_argument('--chqpointmap', default=os.path.join(inputlayouts_path, 'report.json'))
     parser.add_argument('--htmltemplate', default=os.path.join(templates_path, 'report.html'))
@@ -178,6 +178,9 @@ if __name__=='__main__':
     elif args.fullqcdir:
         fullqcdir = args.fullqcdir
         case = os.path.basename(os.path.dirname(os.path.dirname(fullqcdir)))
+
+    # Canonicalize fullqcdir
+    fullqcdir = os.path.expanduser(os.path.realpath(fullqcdir))
         
     default_outputdir = os.path.join(fullqcdir, pubble_prefix + '-' + VERSION) 
         
