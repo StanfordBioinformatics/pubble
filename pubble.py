@@ -12,7 +12,7 @@ from highest_version import highest_version
 from chqpoint import Analysis
 from parsers import samtoolsparser, gatkparser, fastqcparser, picardparser, coverage, common
 
-VERSION = '1.0'
+VERSION = '1.1'
 
 # Default values, can be overridden by arguments 
 cases_path = os.path.normpath('/srv/gsfs0/SCGS/cases')
