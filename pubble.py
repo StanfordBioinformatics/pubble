@@ -172,27 +172,27 @@ if __name__=='__main__':
         default_medgap_dir = os.path.join(cases_path, args.case, medgap_prefix + '-' + medgap_version)
         default_qc_dir = os.path.join(default_medgap_dir, qc_prefix + '-' + qc_version)
         fullqcdir = default_qc_dir  
-        case = args.case
+        # Canonicalize fullqcdir
+        fullqcdir = os.path.expanduser(os.path.realpath(fullqcdir))
         
     # Set up paths based on fullqcdir
     elif args.fullqcdir:
         fullqcdir = args.fullqcdir
-        case = os.path.basename(os.path.dirname(os.path.dirname(fullqcdir)))
-
-    # Canonicalize fullqcdir
-    fullqcdir = os.path.expanduser(os.path.realpath(fullqcdir))
+        # Canonicalize fullqcdir
+        fullqcdir = os.path.expanduser(os.path.realpath(fullqcdir))
+        args.case = os.path.basename(os.path.dirname(os.path.dirname(fullqcdir)))
         
     default_outputdir = os.path.join(fullqcdir, pubble_prefix + '-' + VERSION) 
         
     if args.htmldestfile: 
         htmldestfile = args.htmldestfile
     else:
-        htmldestfile = os.path.join(default_outputdir, case+'.html') 
+        htmldestfile = os.path.join(default_outputdir, args.case+'.html') 
 
     if args.pdfdestfile:
         pdfdestfile = args.pdfdestfile
     else:
-        pdfdestfile = os.path.join(default_outputdir, case+'.pdf') 
+        pdfdestfile = os.path.join(default_outputdir, args.case+'.pdf') 
     
     # Create output directory/directories
     os.makedirs(os.path.dirname(pdfdestfile), exist_ok=True)
@@ -208,6 +208,8 @@ if __name__=='__main__':
 
     # Create symlink to PDF
     try:
+        print('pdfdestfile: ', pdfdestfile)
+        print('linkspath: ', links_path)
         os.symlink(pdfdestfile, os.path.join(links_path, os.path.basename(pdfdestfile))) 
     except FileExistsError:
         print('Skipping creation of symbolic link because a file or link of the same name already exists')
