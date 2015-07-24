@@ -34,52 +34,52 @@
 	{
 	    "name": "fastqc_data",
 	    "type": "file",
-	    "relativepath": "fastqc/genome.recal_fastqc/fastqc_data.txt"
+	    "relativepath": "fastqc/*/fastqc_data.txt"
 	},
     	{
 	    "name": "fastqc_duplication_levels",
 	    "type": "file",
-	    "relativepath": "fastqc/genome.recal_fastqc/Images/duplication_levels.png"
+	    "relativepath": "fastqc/*/Images/duplication_levels.png"
     	},
 	{
 	    "name": "fastqc_kmer_profiles",
 	    "type": "file",
-	    "relativepath": "fastqc/genome.recal_fastqc/Images/kmer_profiles.png"
+	    "relativepath": "fastqc/*/Images/kmer_profiles.png"
 	},
 	{
 	    "name": "fastqc_per_base_gc_content",
 	    "type": "file",
-	    "relativepath": "fastqc/genome.recal_fastqc/Images/per_base_gc_content.png"
+	    "relativepath": "fastqc/*/Images/per_base_gc_content.png"
 	},
 	{
 	    "name": "fastqc_per_base_n_content",
 	    "type": "file",
-	    "relativepath": "fastqc/genome.recal_fastqc/Images/per_base_n_content.png"
+	    "relativepath": "fastqc/*/Images/per_base_n_content.png"
 	},
 	{
 	    "name": "fastqc_per_base_quality",
 	    "type": "file",
-	    "relativepath": "fastqc/genome.recal_fastqc/Images/per_base_quality.png"
+	    "relativepath": "fastqc/*/Images/per_base_quality.png"
 	},
 	{
 	    "name": "fastqc_per_base_sequence_content",
 	    "type": "file",
-	    "relativepath": "fastqc/genome.recal_fastqc/Images/per_base_sequence_content.png"
+	    "relativepath": "fastqc/*/Images/per_base_sequence_content.png"
 	},
 	{
 	    "name": "fastqc_per_sequence_gc_content",
 	    "type": "file",
-	    "relativepath": "fastqc/genome.recal_fastqc/Images/per_sequence_gc_content.png"
+	    "relativepath": "fastqc/*/Images/per_sequence_gc_content.png"
 	},
 	{
 	    "name": "fastqc_per_sequence_quality",
 	    "type": "file",
-	    "relativepath": "fastqc/genome.recal_fastqc/Images/per_sequence_quality.png"
+	    "relativepath": "fastqc/*/Images/per_sequence_quality.png"
 	},
 	{
 	    "name": "fastqc_sequence_length_distribution",
 	    "type": "file",
-	    "relativepath": "fastqc/genome.recal_fastqc/Images/sequence_length_distribution.png"
+	    "relativepath": "fastqc/*/Images/sequence_length_distribution.png"
 	},
 	{
 	    "name": "picard_alignmentsummarymetrics",

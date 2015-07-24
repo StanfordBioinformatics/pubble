@@ -12,15 +12,11 @@ from highest_version import highest_version
 from chqpoint import Analysis
 from parsers import samtoolsparser, gatkparser, fastqcparser, picardparser, coverage, common
 
-VERSION = '1.1'
+VERSION = '1.2'
 
 # Default values, can be overridden by arguments 
 cases_path = os.path.normpath('/srv/gsfs0/SCGS/cases')
 links_path = os.path.normpath('/srv/gsfs0/SCGS/reports')
-medgap_prefix = 'medgap'
-medgap_version = '2.0'
-qc_prefix = 'koalatea'
-qc_version = '2.1'
 pubble_prefix = 'pubble'
 templates_path = os.path.join(os.path.dirname(__file__), 'templates')
 parsers_path = os.path.join(os.path.dirname(__file__), 'parsers')
@@ -152,7 +148,6 @@ if __name__=='__main__':
 
     parser = ArgumentParser()
     parser.add_argument('fullqcdir')
-    parser.add_argument('--case')
     parser.add_argument('--chqpointmap', default=os.path.join(inputlayouts_path, 'report.json'))
     parser.add_argument('--htmltemplate', default=os.path.join(templates_path, 'report.html'))
     parser.add_argument('--htmldestfile')
@@ -161,26 +156,11 @@ if __name__=='__main__':
     parser.add_argument('--debug', action='store_true')
     args = parser.parse_args()
 
-    # Check arguments
-    if args.fullqcdir and args.case:
-        raise Exception('Conflicting arguments, fullqcdir and case both specified')
-
-    # Set up paths based on case number
-    if args.case:
-        #latest_medgap_dir = highest_version(os.path.join(cases_path, args.case, medgap_prefix))
-        #latest_qc_dir = highest_version(os.path.join(latest_medgap_dir, qc_prefix))
-        default_medgap_dir = os.path.join(cases_path, args.case, medgap_prefix + '-' + medgap_version)
-        default_qc_dir = os.path.join(default_medgap_dir, qc_prefix + '-' + qc_version)
-        fullqcdir = default_qc_dir  
-        # Canonicalize fullqcdir
-        fullqcdir = os.path.expanduser(os.path.realpath(fullqcdir))
-        
     # Set up paths based on fullqcdir
-    elif args.fullqcdir:
-        fullqcdir = args.fullqcdir
-        # Canonicalize fullqcdir
-        fullqcdir = os.path.expanduser(os.path.realpath(fullqcdir))
-        args.case = os.path.basename(os.path.dirname(os.path.dirname(fullqcdir)))
+    fullqcdir = args.fullqcdir
+    # Canonicalize fullqcdir
+    fullqcdir = os.path.expanduser(os.path.realpath(fullqcdir))
+    args.case = os.path.basename(os.path.dirname(os.path.dirname(fullqcdir)))
         
     default_outputdir = os.path.join(fullqcdir, pubble_prefix + '-' + VERSION) 
         
