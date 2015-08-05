@@ -9,82 +9,98 @@
 	{
 	    "name": "flagstat",
 	    "type": "file",
-	    "relativepath": "flagstat/flagstat.txt"
+	    "relativepath": "flagstat/flagstat.txt",
+        "mincount": 1
 	},
 	{
 	    "name": "varianteval_CountVariants",
 	    "type": "file",
-	    "relativepath": "variantEval/variantEval_metrics.txt"
+	    "relativepath": "variantEval/variantEval_metrics.txt",
+        "mincount": 1
 	},
 	{
 	    "name": "varianteval_TiTvVariantEvaluator",
 	    "type": "file",
-	    "relativepath": "variantEval/variantEval_metrics.txt"
+	    "relativepath": "variantEval/variantEval_metrics.txt",
+        "mincount": 1
 	},
 	{
 	    "name": "varianteval_dbsnp_CountVariants",
 	    "type": "file",
-	    "relativepath": "variantEval-dbsnp/variantEval_metrics.txt"
+	    "relativepath": "variantEval-dbsnp/variantEval_metrics.txt",
+        "mincount": 1
 	},
 	{
 	    "name": "varianteval_dbsnp_TiTvVariantEvaluator",
 	    "type": "file",
-	    "relativepath": "variantEval-dbsnp/variantEval_metrics.txt"
+	    "relativepath": "variantEval-dbsnp/variantEval_metrics.txt",
+        "mincount": 1
 	},
 	{
 	    "name": "fastqc_data",
 	    "type": "file",
-	    "relativepath": "fastqc/*/fastqc_data.txt"
+	    "relativepath": "fastqc/*/fastqc_data.txt",
+        "mincount": 1
 	},
-    	{
+    {
 	    "name": "fastqc_duplication_levels",
 	    "type": "file",
-	    "relativepath": "fastqc/*/Images/duplication_levels.png"
-    	},
+	    "relativepath": "fastqc/*/Images/duplication_levels.png",
+        "mincount": 1
+    },
 	{
 	    "name": "fastqc_kmer_profiles",
 	    "type": "file",
-	    "relativepath": "fastqc/*/Images/kmer_profiles.png"
+	    "relativepath": "fastqc/*/Images/kmer_profiles.png",
+        "mincount": 1
 	},
 	{
 	    "name": "fastqc_per_base_gc_content",
 	    "type": "file",
-	    "relativepath": "fastqc/*/Images/per_base_gc_content.png"
+	    "relativepath": "fastqc/*/Images/per_base_gc_content.png",
+        "mincount": 1
 	},
 	{
 	    "name": "fastqc_per_base_n_content",
 	    "type": "file",
-	    "relativepath": "fastqc/*/Images/per_base_n_content.png"
+	    "relativepath": "fastqc/*/Images/per_base_n_content.png",
+        "mincount": 1
 	},
 	{
 	    "name": "fastqc_per_base_quality",
 	    "type": "file",
-	    "relativepath": "fastqc/*/Images/per_base_quality.png"
+	    "relativepath": "fastqc/*/Images/per_base_quality.png",
+        "mincount": 1
 	},
 	{
 	    "name": "fastqc_per_base_sequence_content",
 	    "type": "file",
-	    "relativepath": "fastqc/*/Images/per_base_sequence_content.png"
+	    "relativepath": "fastqc/*/Images/per_base_sequence_content.png",
+        "mincount": 1
 	},
 	{
 	    "name": "fastqc_per_sequence_gc_content",
 	    "type": "file",
-	    "relativepath": "fastqc/*/Images/per_sequence_gc_content.png"
+	    "relativepath": "fastqc/*/Images/per_sequence_gc_content.png",
+        "mincount": 1
 	},
 	{
 	    "name": "fastqc_per_sequence_quality",
 	    "type": "file",
-	    "relativepath": "fastqc/*/Images/per_sequence_quality.png"
+	    "relativepath": "fastqc/*/Images/per_sequence_quality.png",
+        "mincount": 1
 	},
 	{
 	    "name": "fastqc_sequence_length_distribution",
 	    "type": "file",
-	    "relativepath": "fastqc/*/Images/sequence_length_distribution.png"
+	    "relativepath": "fastqc/*/Images/sequence_length_distribution.png",
+        "mincount": 1
 	},
 	{
 	    "name": "picard_alignmentsummarymetrics",
 	    "type": "file",
-	    "relativepath": "alnSumMetrics/alnSummaryMetrics.txt"
+	    "relativepath": "alnSumMetrics/alnSummaryMetrics.txt",
+        "mincount": 1
 	},
 	{
 	    "name": "picard_gcbiasmetrics",
@@ -94,42 +110,50 @@
 	{
 	    "name": "picard_gcbiasmetricsimage",
 	    "type": "file",
-	    "relativepath": "gcBiasMetrics/gcBiasMetrics_chart.pdf"
+	    "relativepath": "gcBiasMetrics/gcBiasMetrics_chart.pdf",
+        "mincount": 1
 	},
 	{
 	    "name": "picard_gcdropoutmetrics",
 	    "type": "file",
-	    "relativepath": "gcBiasMetrics/gcBiasMetrics_summary.txt"
+	    "relativepath": "gcBiasMetrics/gcBiasMetrics_summary.txt",
+        "mincount": 1
 	},
 	{
 	    "name": "picard_insertsizemetrics",
 	    "type": "file",
-	    "relativepath": "insertSizeMetrics/insertSizeMetrics.txt"
+	    "relativepath": "insertSizeMetrics/insertSizeMetrics.txt",
+        "mincount": 1
 	},
 	{
 	    "name": "picard_insertsizemetricsimage",
 	    "type": "file",
-	    "relativepath": "insertSizeHist.pdf"
+	    "relativepath": "insertSizeHist.pdf",
+        "mincount": 1
 	},
 	{
 	    "name": "picard_meanqualitybycycleimage",
 	    "type": "file",
-	    "relativepath": "meanQualByCycle/meanQualByCycle.pdf"
+	    "relativepath": "meanQualByCycle/meanQualByCycle.pdf",
+        "mincount": 1
 	},
 	{
 	    "name": "picard_qualityscoredistribution",
 	    "type": "file",
-	    "relativepath": "qcScoreDist/qualScoreDist.txt"
+	    "relativepath": "qcScoreDist/qualScoreDist.txt",
+        "mincount": 1
 	},
 	{
 	    "name": "picard_qualityscoredistributionimage",
 	    "type": "file",
-	    "relativepath": "qcScoreDist/qualScoreDist_chart.pdf"
+	    "relativepath": "qcScoreDist/qualScoreDist_chart.pdf",
+        "mincount": 1
 	},
 	{
 	    "name": "coverage_summary",
 	    "type": "file",
-	    "relativepath": "coverage/coverage_stats-*/sample_summary.txt"
+	    "relativepath": "coverage/coverage_stats-*/sample_summary.txt",
+        "mincount": 1
 	}
     ]
 }

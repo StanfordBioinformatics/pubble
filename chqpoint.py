@@ -118,10 +118,10 @@ class AnalysisConfig:
                   filelist.append(dataobj)
             if mincount:
                   if len(filelist) < mincount:
-                        raise Exception()
+                        raise Exception("Didn't find at least {} file(s) matching {}".format(mincount, path))
             if maxcount:
-                  if len(filelist) < maxcount:
-                        raise Exception()
+                  if len(filelist) > maxcount:
+                        raise Exception("Found over {} file(s) matching {}".format(maxcount, path))
             return filelist
 
 #      def _scanchqpoint(self, searchpattern):
