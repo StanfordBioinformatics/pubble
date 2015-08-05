@@ -7,20 +7,19 @@ import re
 from shutil import copy, rmtree, move
 import subprocess
 import tempfile
-from highest_version import highest_version
 
 from chqpoint import Analysis
 from parsers import samtoolsparser, gatkparser, fastqcparser, picardparser, coverage, common
 
-VERSION = '1.2'
+VERSION = '1.2.1'
 
 # Default values, can be overridden by arguments 
 cases_path = os.path.normpath('/srv/gsfs0/SCGS/cases')
 links_path = os.path.normpath('/srv/gsfs0/SCGS/reports')
 pubble_prefix = 'pubble'
-templates_path = os.path.join(os.path.dirname(__file__), 'templates')
-parsers_path = os.path.join(os.path.dirname(__file__), 'parsers')
-inputlayouts_path = os.path.join(os.path.dirname(__file__), 'inputlayouts')
+templates_path = os.path.realpath(os.path.join(os.path.dirname(__file__), 'templates'))
+parsers_path = os.path.realpath(os.path.join(os.path.dirname(__file__), 'parsers'))
+inputlayouts_path = os.path.realpath(os.path.join(os.path.dirname(__file__), 'inputlayouts'))
 
 # This dict maps each output file name to its parser module
 # The key is the output 'name' in the chqpoint json
@@ -187,9 +186,10 @@ if __name__=='__main__':
     r.renderhtml(args.htmltemplate, htmldestfile)
 
     # Create symlink to PDF
-    try:
-        print('pdfdestfile: ', pdfdestfile)
-        print('linkspath: ', links_path)
-        os.symlink(pdfdestfile, os.path.join(links_path, os.path.basename(pdfdestfile))) 
-    except FileExistsError:
-        print('Skipping creation of symbolic link because a file or link of the same name already exists')
+    link = os.path.join(links_path, os.path.basename(pdfdestfile))
+    print('pdfdestfile: ', pdfdestfile)
+    print('link: ', link)
+    if os.path.exists(link):
+        if os.path.islink(link):
+            os.unlink(link)
+    os.symlink(pdfdestfile, link) 

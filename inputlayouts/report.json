@@ -129,7 +129,7 @@
 	{
 	    "name": "coverage_summary",
 	    "type": "file",
-	    "relativepath": "coverage/sample_summary.txt"
+	    "relativepath": "coverage/coverage_stats-*/sample_summary.txt"
 	}
     ]
 }
