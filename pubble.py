@@ -189,7 +189,7 @@ if __name__=='__main__':
     link = os.path.join(links_path, os.path.basename(pdfdestfile))
     print('pdfdestfile: ', pdfdestfile)
     print('link: ', link)
-    if os.path.exists(link):
-        if os.path.islink(link):
-            os.unlink(link)
+    if os.path.islink(link):
+        print('Link exists, unlinking')
+        os.unlink(link)
     os.symlink(pdfdestfile, link) 
