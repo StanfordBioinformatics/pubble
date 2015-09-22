@@ -11,7 +11,7 @@ import tempfile
 from chqpoint import Analysis
 from parsers import samtoolsparser, gatkparser, fastqcparser, picardparser, coverage, common
 
-VERSION = '1.2.1'
+VERSION = '1.2.2'
 
 # Default values, can be overridden by arguments 
 cases_path = os.path.normpath('/srv/gsfs0/SCGS/cases')
@@ -98,7 +98,7 @@ class ReportMaker:
         with open(latexfile, 'w') as f:
             f.write(self.rendertext(templatefile, self.results, self.imagefiles))
 
-        cmd = 'pdflatex -output-directory=%s %s' % (tempdir, latexfile)
+        cmd = 'pdflatex -interaction=nonstopmode -output-directory=%s %s' % (tempdir, latexfile)
         subprocess.call(cmd, shell=True)
         move(os.path.join(tempdir, tempbasename+'.pdf'), destfile)
         if not dbg:

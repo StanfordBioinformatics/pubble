@@ -1,10 +1,11 @@
 \documentclass[a4paper,12pt]{scrartcl}
 \usepackage{graphicx}
 \usepackage{float}
+\usepackage{listings}
 \begin{document}
 
 \title{Sequencing, Mapping, and Variant Calling QC Report}
-\subtitle{Case ID: {{ caseid }}{% if illuminaid %}\\*Sequence ID: {{illuminaid}}{% endif %}}
+\subtitle{Case ID: {\lstinline|{{caseid}} {% if illuminaid %} \\*Sequence ID: {{illuminaid}} {% endif %}|}}
 \date{}
 \author{}
 \maketitle
