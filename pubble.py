@@ -11,7 +11,7 @@ import tempfile
 from chqpoint import Analysis
 from parsers import samtoolsparser, gatkparser, fastqcparser, picardparser, coverage, common
 
-VERSION = '1.2.2'
+VERSION = '1.2.3'
 
 # Default values, can be overridden by arguments 
 cases_path = os.path.normpath('/srv/gsfs0/SCGS/cases')

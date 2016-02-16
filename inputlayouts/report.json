@@ -128,7 +128,7 @@
 	{
 	    "name": "picard_insertsizemetricsimage",
 	    "type": "file",
-	    "relativepath": "insertSizeHist.pdf",
+	    "relativepath": "insertSizeMetrics/insertSizeHist.pdf",
         "mincount": 1
 	},
 	{
